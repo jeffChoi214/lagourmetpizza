@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>LA Gourmet Pizza</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+ <link href="../text.css" rel="stylesheet" type="text/css">
+</head>
+
+<body topmargin="0" leftmargin="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#F19503" style="border-collapse: collapse">
+<form name="form1" method="post" action="">
+  <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" class="text">
+    <tr>
+      <td height="190" background="images/topbg.jpg"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="1004" height="190">
+        <param name="movie" value="pizza_1.swf">
+        <param name="quality" value="high"><param name="LOOP" value="false">
+        <embed src="pizza_1.swf" width="1004" height="190" loop="false" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed></object></td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" background="images/bg.gif" bgcolor="DC7E1E"><table width="1004" height="100%" border="0" cellpadding="0" cellspacing="0" class="text">
+          <tr align="left" valign="top">
+            <td width="622"> 
+              <table width="929" height="100%" border="0" cellpadding="0" cellspacing="0" class="text" style="font-family: Verdana; font-size: 8pt; border-collapse: collapse" bordercolor="#111111">
+                <tr>
+                  <td width="929" style="text-decoration: blink; font-family: Verdana; font-size: 10pt"><br>
+                  <br>
+&nbsp;&nbsp;&nbsp; <!--#include virtual="categories.php" --></td>
+                </tr>
+              </table></td>
+          </tr>
+        </table></td>
+    </tr>
+    <tr>
+      <td height="40" background="images/bottom01.gif"><table width="1004" height="40" border="0" cellpadding="0" cellspacing="0" class="text">
+          <tr> 
+            <td align="center">&nbsp;</td>
+            <td width="400" align="center"><font color="FDD44D">Copyright 2005 
+            LAGourmetPizza.com 
+              All Rights Reserved.</font></td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

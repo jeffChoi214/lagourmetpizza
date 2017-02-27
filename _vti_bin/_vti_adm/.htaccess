@@ -1,0 +1,18 @@
+# -FrontPage-
+
+#ptions None
+
+<Limit GET POST>
+order deny,allow
+deny from all
+allow from all
+require group administrators
+</Limit>
+<Limit PUT DELETE>
+order deny,allow
+deny from all
+</Limit>
+AuthType Basic
+AuthName lagourmetpizza.com
+AuthUserFile /homepages/21/d123799337/htdocs/_vti_pvt/service.pwd
+AuthGroupFile /homepages/21/d123799337/htdocs/_vti_pvt/service.grp

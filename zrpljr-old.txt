@@ -1,0 +1,1 @@
+name=LA Gourmet Pizza&slogan= Pizza with Attitude&sub1=OUR SPECIALTY&sub2=OUR MENU&sub3=OUR MENU&rep=replay&button1=About Us&button2=Specials&button3=Our Menu&button4=Gift Certificates&button5=Restaurant Locator&url1=#&url2=http://lagourmetpizza.com/pizza/categories.php&url3=http://lagourmetpizza.com/pizza/categories.php&url4=#&url5=#&iurl1=#&iurl2=#&iurl3=#&enddata=1

@@ -1,0 +1,113 @@
+BODY{
+	scrollbar-3d-light-color: #FFFFFF;
+	scrollbar-arrow-color: #D0DAE3;
+	scrollbar-base-color: #D0DAE3;
+	scrollbar-dark-shadow-color: #D0DAE3;
+	scrollbar-face-color: #000033;
+	scrollbar-highlight-color: #000033;
+	scrollbar-shadow-color: #D0DAE3;
+}
+A:link {
+	color: #CC0000;
+	text-decoration: none;
+}
+A:visited {
+	color: #CC0000;
+	text-decoration: none;
+}
+A:active {
+	color: #CC0000;
+	text-decoration: none;
+}
+A:hover {
+	color: #000066;
+	text-decoration: none;
+}
+A.dark:link {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+A.dark:visited {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+A.dark:active {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+A.dark:hover {
+	color: #00CC00;
+	text-decoration: none;
+}
+TD {
+	font-size: 11px;
+	font-family : Verdana;
+}
+P {
+	font-size: 11px;
+	font-family : Verdana;
+}
+TD.dark {
+	font-size: 11px;
+	font-family : Verdana;
+	color : #FFFFFF;
+}
+P.dark {
+	font-size: 11px;
+	font-family : Verdana;
+; color: #FFFFFF
+}
+TD.smaller {
+	font-size: 11px;
+	font-family : Verdana;
+	color : #000000;
+}
+P.smaller {
+	font-size: 11px;
+	font-family : Verdana;
+	color : #000000;
+}
+Input {
+	border-width: 1px;
+	border-color: #003366;
+	font-family : Verdana;
+	font-size: 11px;
+	color : #003366;
+	background-color: #E7EAEF;
+}
+Input.noborder {
+	border-width: 1px;
+	border-color: #003366;
+	font-family : Verdana;
+	font-size: 11px;
+	color : #003366;
+	background-color: #FFFFFF;
+}
+Input.darkborder {
+	border-width: 2px;
+	border-color: #003366;
+	font-family : Verdana;
+	font-size: 11px;
+	font-weight: bold;
+	color : #003366;
+	background-color: #E7EAEF;
+}
+Textarea {
+	border-width: 1px;
+	border-color: #003366;
+	font-family : Verdana;
+	color : #003366;
+	background-color: #E7EAEF;
+}
+Select {
+	font-size: 11px;
+	border-width: 1px;
+	border-color: #003366;
+	font-family : Verdana;
+	color : #003366;
+	background-color: #E7EAEF;
+}
+HR {
+	color: #E7EAEF;
+	height: 1px;
+}

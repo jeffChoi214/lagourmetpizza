@@ -1,0 +1,158 @@
+        Menu changes... 
+              You'll need to go into HTML view of menu.htm (located in the 
+              includes file) in your favourite editor to make the changes 
+              necessary to get the look you want. 
+              Before each of these lines there is a comment explaining what 
+              changes can be made - here are some examples: 
+
+              Locate mymenu.mainmenuitemsize(122,18) - defines the width and 
+              height in pixels of a menu item in the main menu. (The first one 
+              to appear). 
+              Locate mymenu.submenuitemsize(186,18) - defines the width and 
+              height in pixels of the sub menu items.
+
+              Locate mymenu.submenuplacing(0,0) - defines the position of the 
+              sub menus in relation to the main menu.the first number will move 
+              the sub menus more to the left, and the second number will move 
+              the sub menus down. If the second number is negative the it will 
+              move the sub menus up. 
+
+              Locate 
+              mymenu.mainborderimages("images/blackpixel.gif","images/blackpixel.gif","images/blackpixel.gif","images/blackpixel.gif")
+              mymenu.mainbordercorners("images/blackpixel.gif","images/blackpixel.gif","images/blackpixel.gif","images/blackpixel.gif")
+	 - use this function if you want to define a graphical border for 
+              the main menu. If you do not want to define a border for the main 
+              menu, just delete this line.The images are, in order, those which 
+              are to the left, right, top and bottom of the main menu and the respective corners. In this 
+              example we've used a black border with the blackpixel.gif.
+
+	 Locate
+	 mymenu.mainborderdimensions(1,1,1)
+	 - this defines the width of the borders
+              
+	 Locate 
+              mymenu.subborderimages("images/blackpixel.gif","images/blackpixel.gif","images/blackpixel.gif","images/blackpixel.gif")
+              - as mainborderimages, but for all submenus so you can define a 
+              different style for sub menus. If you wish to have the same style, 
+              simply define the same images. Here we've used a black border.
+ 
+              Locate mymenu.mainborderdimensions(1,1,1) - These are the 
+              dimensions of the main menu borders. The first parameter is the 
+              left width, the second the right width, and the third the height 
+              at both top and bottom. If you did wish the top and bottom to have 
+              different heights, you can of course pad with rows of transparent 
+              pixels. Again, if you do not wish to define a border, simply 
+              delete this line. 
+              Locate mymenu.subborderdimensions(1,1,1) - As above but for all 
+              sub menus. You may notice that the left width is rather large 
+              compared to the rest of the widths. This is because it has to 
+              accomodate the width of the "join" graphic. (That which "joins" a 
+              menu to a sub menu). It is not necessary to define a "join" 
+              graphic, but the option is there if you wish. 
+
+              Locate mymenu.mainmenucolor("#EFECE2") - The color of the main 
+              menu cells. Any valid HTML color is ok. 
+              Locate mymenu.submenucolor("#EFECE2") - The color of the sub menu 
+              cells. 
+             
+              Locate mymenu.netscapeadjust(3,3) - Unfortunately Netscape 4.7 
+              does not behave quite so well with DHTML. If you find that the 
+              text in the menu items is vertically aligned "top" in NN 4.7, then 
+              adjusting these numbers will nudge it down by that number of 
+              pixels. The first number is for the main menus, and the second for 
+              the sub menus. 
+
+	 Locate mymenu.definemainspacer("images/blackpixel.gif",1)
+	 - The graphic that goes between menu items in the main menu. If you do not wish 
+              to define one then simply leave this line blank. 
+              mymenu.definesubspacer("images/blackpixel.gif",1)
+ 	 - As above but for sub menus.
+
+              Locate
+              mymenu.addMenu("home","<b>home</b>", "index.php")
+mymenu.addMenu("main","<b>main</b>", "#")
+
+// Please note, the following line of code is used to automatically create the links for the product sections
+// If you do not want to use this feature, please delete this line of code in your includes/menu.htm file
+// along with the corresponding section below.
+
+mymenu.addMenu("products","<b>products</b>", "categories.php")
+
+mymenu.addMenu("frontpage","<b>frontpage</b>", "#")
+mymenu.addMenu("dreamweaver","<b>dreamweaver</b>", "#")
+mymenu.addMenu("golive","<b>golive</b>", "#")
+mymenu.addMenu("tools","<b>tools</b>", "#")
+mymenu.addMenu("help","<b>help</b>", "#")
+mymenu.addMenu("search","<b>search</b>", "search.php")
+mymenu.addMenu("checkout","<b>checkout</b>", "cart.php")
+
+              This is where you define the names that appear on the main menu. 
+The links for your products is automatically generated.              
+For simplicity sake it's a good idea to use the same names ie. 
+              main is the name of the group that appears in the menu cell 
+              with the title "main". We've put 9 headings but you can add 
+              more in the same format or less by deleting the lines. The 
+              parameters are in order, firstly, the name of the menu item (used 
+              when defining sub menus), secondly, the text that appears in that 
+              menu item, and thirdly the link from that that menu item. 
+              Now to define the sub menu items. Here are a few of examples . . .
+              
+	 mymenu.addSubMenu("main", "", "<b>about us</b>", "about.php")
+
+	 mymenu.addSubMenu("help", "tutorials", "<b>tutorials</b>", "#")
+
+	 mymenu.addSubMenu("tutorials", "navigation", "<b>navigation</b>", "#")
+
+	 mymenu.addSubMenu("navigation", "", "<b>navigation graphics</b>", "#")
+
+
+              As you can see, the parameters are in order, firstly, the name of 
+              the "parent" menu, secondly, the name of the "sub" menu if any, 
+              thirdly, the text that will be displayed in the menu items, and 
+              finally the link if any. As you can see, you can use HTML in the 
+              text that appears in the menu items, as we have here with the <b> 
+              tag to show in bold. Sub menu items need to be defined one group 
+              at a time. For instance you can see that all the sub menus of 
+              "instructions" are defined before starting to define any for 
+              "webdesign". 
+
+
+	 To change the colour of the links, you'll need to open the file stylesheet.css.
+	 These lines dictate the colour of the links and the removal of the underline:
+	 
+	 A.menu:link {
+	COLOR: #333333; TEXT-DECORATION: none
+	 }
+	 A.menu:active {
+	COLOR: #333333; TEXT-DECORATION: none
+	 }
+	 A.menu:visited {
+	COLOR: #333333; TEXT-DECORATION: none
+	 }
+	 A.menu:hover {
+	COLOR: #ffffff; TEXT-DECORATION: none
+	 }
+
+	 The text links on the main page can be changed by altering these lines:
+
+	 A:link  {
+	color: #ffffff;
+	text-decoration: none;
+	 }
+
+	 A:visited  {
+	color: #ffffff;
+	text-decoration: none;
+	 }
+
+	 A:active  {
+	color: #ffffff;
+	text-decoration: none;
+	 }
+
+	 A:hover  {
+	color: #333333;
+	text-decoration: none;
+	 }
+
+	 Any valid HTML color is ok - just make sure it contrasts with the background colour of the menu or page. 

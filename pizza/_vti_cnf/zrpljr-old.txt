@@ -1,0 +1,10 @@
+vti_encoding:SR|utf8-nl
+vti_author:SR|lapizza
+vti_timelastmodified:TR|16 Sep 2005 20:43:47 -0000
+vti_timecreated:TR|19 Apr 2005 00:01:41 -0000
+vti_extenderversion:SR|5.0.2.2623
+vti_backlinkinfo:VX|
+vti_nexttolasttimemodified:TW|16 Sep 2005 20:18:04 -0000
+vti_modifiedby:SR|lapizza
+vti_cacheddtm:TX|16 Sep 2005 20:43:47 -0000
+vti_filesize:IR|582

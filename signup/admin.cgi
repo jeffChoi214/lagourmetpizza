@@ -1,0 +1,779 @@
+#!/usr/bin/perl
+# Be sure that the line above points to where perl 5 is 
+# on your system.
+
+##################################################################
+# nmmdadmin.cgi: subscription e-mail collector with subscribe
+# and unsubscribe features.
+# Release 1.0 on 04/17/99
+# (C) 1999 BigNoseBird.Com, Inc. This program is freeware and may 
+# be used at no cost to you (just leave this notice intact). 
+# Feel free to modify, hack, and play  with this script. 
+# It is provided AS-IS with no warranty of any kind.                
+# We also cannot assume responsibility for either any programs      
+# provided here, or for any advice that is given since we have no   
+# control over what happens after our code or words leave this site.
+# Always use prudent judgment in implementing any program- and      
+# always make a backup first!                                       
+#
+##################################################################
+
+use Socket;
+
+$|=1; 
+
+
+## SECURITY NOTICE # SECURITY NOTICE # SECURITY NOTICE ###########
+#
+#   This script has NO security features built in. Please 
+#   consult the README.TXT file for information on securing
+#   this script from abuse.
+#
+##################################################################
+
+#### USER CONFIGURATION SECTION ##################################
+# $BASEDIR is the full directory path to where you will store your
+# mail list (mbz) files and letter (ltr) files. Be certain that
+# the script can write to this directory
+
+   $BASEDIR="/homepages/21/d123799337/htdocs/signup/";
+
+# $TEMPDIR is the location of the system temporary directory. The
+# setting below is fine for all unix systems.
+
+   $TEMPDIR="/tmp";
+
+# $SCRIPT_URL is the URL (not path) of this script.
+
+   $SCRIPT_URL="/signup/admin.cgi";
+
+# $SMTP_SERVER is the name of the sendmail or SMTP host that will
+# send your mail. This script uses the SOCKETS method, and does
+# not use sendmail or BLAT.EXE for cross-platform use and ease of
+# installation. The value below should work on almost all systems
+# that are capable of sending mail. Use your ISP's mail server
+# such as mail.xxxyyyzzz.net if your host cannot originate mail.
+
+#   $SMTP_SERVER="localhost";
+
+# In case you don't have access to SMTP, try commenting out the
+# line above with a # mark at the start of the line, and uncomment
+# the SENDMAIL below.
+
+ $SEND_MAIL="/usr/lib/sendmail -t";
+
+# $DEFAULT_EMAIL is used as the default 'from' e-mail address
+# for your mailings. You can type over this value when sending
+# mail.
+
+   $DEFAULT_EMAIL="info\@lagourmetpizza.com";
+
+##################################################################
+
+&test_dirs;
+&setup;
+
+if ($ENV{'REQUEST_METHOD'} ne "POST" && $ENV{'QUERY_STRING'} eq "")
+  { &query_form; exit; }
+
+  &decode_vars;
+
+if ($ENV{'REQUEST_METHOD'} eq "POST" && $fields{'action'} eq "LIST")
+  { &get_list; exit; }
+
+if ($ENV{'REQUEST_METHOD'} eq "POST" && $fields{'action'} eq "SENDMAIL")
+  { &send_mail; exit; }
+
+if ($ENV{'REQUEST_METHOD'} eq "POST" && $fields{'action'} eq "POSTLETTER")
+  { &post_letter; exit; }
+
+if ($ENV{'REQUEST_METHOD'} eq "POST" && $fields{'action'} eq "EDIT")
+  { &ltr_editor; exit; }
+
+if ($ENV{'REQUEST_METHOD'} eq "POST" && $fields{'action'} eq "PURGE")
+  { &purge_names; exit; }
+
+  &error_report("Called without proper options set");
+
+##################################################################
+sub query_form
+{
+print "Content-type: text/html\n\n";
+
+ $fileselect = &get_files("filename","mbz");
+ $ltrselect = &get_files("lfilename","ltr");
+
+  print <<__QUERY_FORM__;
+<CENTER>
+ <TABLE WIDTH=550 CELLPADDING=2 BORDER=1 BGCOLOR="#FFFF00">
+  <TR>
+   <TD ALIGN=CENTER>
+     <H2>BNB's NoMoDoMo </H2>
+     <TABLE WIDTH=500 BORDER=1 CELLPADDING=5 CELLSPACING=0>
+      <TR>
+      <TD BGCOLOR="99FF99">
+       &nbsp;<BR>
+      <FONT FACE="ARIAL">
+      Welcome to BNB's NoMoDomo Subscription Manager Control
+      Panel! The forms below will allow you to manage your
+      mailing lists, create and edit your letters, and send
+      out mailings.
+      <BR>&nbsp;
+       </FONT>
+      </TD>
+      </TR>
+
+      <TR>
+      <TD>
+
+     <FORM ACTION="$SCRIPT_URL" METHOD="POST">
+     <TABLE WIDTH=500 BGCOLOR="#CCCCCC" BORDER=1 CELLPADDING=5 CELLSPACING=0>
+      <TR>
+       <TD COLSPAN=2 BGCOLOR="#CCCCCC">
+        <CENTER><FONT SIZE=+1><B>Maintain Mailing Lists</B></FONT></CENTER>
+      <FONT SIZE=-1 FACE="ARIAL">
+      This form allows you to edit the mailing lists collected
+      by your BNB Subscription Manager. Please use the selection
+      bar to pick the mailing list file you wish to review. 
+      You may also enter an e-mail address, or part of one into
+      the search box and the script will return all all matching
+      records. If you want to select the entire contents of a file,
+      just leave the search box empty.
+      Click on GO-GET-EM! when ready.
+       </FONT>
+       </TD>
+      <TR>
+      <TD  BGCOLOR="#CCE6FF">
+        <B>Please select a list file</B>
+      </TD>
+      <TD BGCOLOR="#CCE6FF">
+     $fileselect
+      </TD>
+     </TR>
+      <TR>
+      <TD  BGCOLOR="#CCE6FF">
+        <B>Partial address to search on</B>
+      </TD>
+      <TD BGCOLOR="#CCE6FF">
+       <INPUT TYPE="TEXT" NAME="search" SIZE=30 MAXLENGTH=100 VALUE="">
+      </TD>
+     </TR>
+     <TR>
+      <TD BGCOLOR="#CCE6FF"><B>Fire when ready</B>
+      </TD>
+      <TD BGCOLOR="#CCE6FF">
+        <INPUT TYPE="submit" VALUE="GO GET'EM!"> 
+        <INPUT NAME="action" TYPE="hidden" VALUE="LIST">
+      </TD>
+      </TR>
+      </TABLE>
+     </FORM>
+
+     <FORM ACTION="$SCRIPT_URL" METHOD="POST">
+     <TABLE WIDTH=500 BGCOLOR="#CCCCCC" BORDER=1 CELLPADDING=5 CELLSPACING=0>
+      <TR>
+       <TD COLSPAN=2 BGCOLOR="#CCCCCC">
+        <CENTER><FONT SIZE=+1><B>Maintain Letters</B></FONT></CENTER>
+      <FONT SIZE=-1 FACE="ARIAL">
+      To create a new form letter file, select the YES button for
+      <I>Create new letter</I>. To edit an existing letter, simply
+      pull down on the selector bar and pick the desired letter file.
+      Click on DO-IT! when ready.
+       </FONT>
+       </TD>
+      <TR>
+      <TD  BGCOLOR="#CCE6FF">
+        <B>Please select a letter file</B>
+      </TD>
+      <TD BGCOLOR="#CCE6FF">
+     $ltrselect
+      </TD>
+     </TR>
+     <TR>
+      <TD BGCOLOR="#CCE6FF"><B>Create a new letter?</B>
+      </TD>
+      <TD BGCOLOR="#CCE6FF">
+        <INPUT TYPE="radio" NAME="newfile" VALUE="NO" checked>NO
+        <INPUT TYPE="radio" NAME="newfile" VALUE="YES">YES
+      </TD>
+      </TR>
+
+     <TR>
+      <TD BGCOLOR="#CCE6FF"><B>Fire when ready</B>
+      </TD>
+      <TD BGCOLOR="#CCE6FF">
+        <INPUT TYPE="submit" VALUE="DO IT!"> 
+        <INPUT NAME="action" TYPE="hidden" VALUE="EDIT">
+      </TD>
+      </TR>
+      </TABLE>
+     </FORM>
+
+     <FORM ACTION="$SCRIPT_URL" METHOD="POST">
+     <TABLE WIDTH=500 BGCOLOR="#CCCCCC" BORDER=1 CELLPADDING=5 CELLSPACING=0>
+      <TR>
+       <TD COLSPAN=2 BGCOLOR="#CCCCCC">
+        <CENTER><FONT SIZE=+1><B>Send out Mailing</B></FONT></CENTER>
+      <FONT SIZE=-1 FACE="ARIAL">
+      This form allows you to send out e-mail to your subscribers.
+      Use the selector bars to pick your mailing list and form letter
+      file. You may also enter a subject line and return e-mail address.
+      Of course- <B>be very careful to pick the correct letter and
+      list before sending!</B> As the mail is being sent, you will
+      see each address and it's status displayed. In the event the 
+      script is interrupted, you will know where it left off.
+      Click on MAIL-EM! when ready.
+       </FONT>
+       </TD>
+      <TR>
+      <TD  BGCOLOR="#CCE6FF">
+        <B>Please select a LIST file</B>
+      </TD>
+      <TD BGCOLOR="#CCE6FF">
+     $fileselect
+      </TD>
+     </TR>
+      <TR>
+      <TD  BGCOLOR="#CCE6FF">
+        <B>Please select a LETTER file</B>
+      </TD>
+      <TD BGCOLOR="#CCE6FF">
+     $ltrselect
+      </TD>
+     </TR>
+
+      <TR>
+      <TD  BGCOLOR="#CCE6FF">
+        <B>From</B>
+      </TD>
+      <TD BGCOLOR="#CCE6FF">
+       <INPUT TYPE="TEXT" NAME="from" SIZE=25 MAXLENGTH=100 VALUE="$DEFAULT_EMAIL">
+      </TD>
+     </TR>
+
+      <TR>
+      <TD  BGCOLOR="#CCE6FF">
+        <B>Subject Line</B>
+      </TD>
+      <TD BGCOLOR="#CCE6FF">
+       <INPUT TYPE="TEXT" NAME="subject" SIZE=25 MAXLENGTH=100 VALUE="">
+      </TD>
+     </TR>
+
+     <TR>
+      <TD BGCOLOR="#CCE6FF"><B>Fire when ready</B>
+      </TD>
+      <TD BGCOLOR="#CCE6FF">
+        <INPUT TYPE="submit" VALUE="MAIL'EM!"> 
+        <INPUT NAME="action" TYPE="hidden" VALUE="SENDMAIL">
+      </TD>
+      </TR>
+      </TABLE>
+     </FORM>
+
+     </TD>
+     </TR>
+     </TABLE>
+     $cpr
+   </TD>
+  </TR>
+ </TABLE>
+</CENTER>
+__QUERY_FORM__
+}
+
+sub send_mail
+{
+  if ($fields{'filename'} eq "" or $fields{'lfilename'} eq "")
+   {&error_report("No letter file or mail list file selected")};
+  if ($fields{'from'} eq "" or &valid_address($fields{'from'}) != 1)
+   {&error_report("The from e-mail is missing or invalid")};
+  if (!-e "$BASEDIR/$fields{'filename'}")
+   {&error_report("unable to find $fields{'filename'} file");}
+  if (!-e "$BASEDIR/$fields{'lfilename'}")
+   {&error_report("unable to find $fields{'filename'} file");}
+
+  $lettext="";
+  open (INMLTR,"<$BASEDIR/$fields{'lfilename'}");
+  while ($ir=<INMLTR>)
+   { $lettext .= $ir; }
+   close(INMLTR);
+  &get_the_lock;
+  @thelist=();
+  open (INFA,"<$BASEDIR/$fields{'filename'}");
+  while ($tl=<INFA>)
+   {
+    chop $tl;
+    @ems=split(/\|/,$tl);  
+    push(@thelist,$ems[0]);
+   }
+  close(INFA); 
+  &drop_the_lock;
+  print "Content-type: text/html\n\n";
+  print "<PRE>Mail being sent to subscribed members of $fields{'filename'}\n";
+  print "using letter $fields{'lfilename'}\n\n";
+
+  foreach $em (@thelist)
+   {
+     $mailresult=&sendmail($fields{from}, $fields{from}, $em, $SMTP_SERVER, $fields{subject}, $lettext); 
+     if ($mailresult eq "1")
+      {print "$em: SENT\n";}
+      else 
+      {print "$em: MAIL NOT SENT: $mailcodes{'$mailresult'}\n";}
+   }
+   print"\n<B>Processing completed!</B>\n";
+}
+
+##################################################################
+sub get_list
+{
+
+ if (!-w "$BASEDIR/$fields{'filename'}")
+   {&error_report("Write permission on requested $fields{'filename'} file are not turned on. <BR>Try CHMOD 666 $fields{'filename'}");}
+  
+print "Content-type: text/html\n\n";
+print <<__HEADER__;
+<FORM ACTION="$SCRIPT_URL" METHOD="POST">
+<CENTER>
+ <TABLE CELLPADDING=2 BORDER=1 BGCOLOR="#CCE6FF">
+<TR>
+  <TD COLSPAN=5 ALIGN=CENTER BGCOLOR="#FFFF00">
+    <H2>EDIT MAILING LIST: $fields{'filename'}</H2>
+    <A HREF="$SCRIPT_URL">Return to Management Page</A>
+    <P>
+  </TD>
+</TR>
+<TR>
+  <TD  BGCOLOR="99FF99" ALIGN=CENTER><B>Check to<BR>Delete</B></TD>
+  <TD BGCOLOR="99FF99" ALIGN=CENTER VALIGN=MIDDLE><B>E-Mail Address</B></TD>
+  <TD  BGCOLOR="99FF99" ALIGN=CENTER VALIGN=MIDDLE><B>IP Address</B></TD>
+  <TD  BGCOLOR="99FF99" ALIGN=CENTER  VALIGN=MIDDLE COLSPAN=2>
+    <B>Subscribed<BR>Date &amp; Time</B></TD>
+</TR>
+__HEADER__
+
+ open (INF,"<$BASEDIR/$fields{'filename'}");
+ @thelist=(<INF>);
+ close(INF); 
+
+foreach $em (@thelist)
+ {
+   chop $em;
+   if ( $em =~/^$fields{'search'}/i || $fields{'search'} eq "")
+   {
+   @ems=split(/\|/,$em);
+   @dt=split(/ /,$ems[2]);
+   print <<__STOP__;
+  <TR>
+  <TD ALIGN=CENTER><INPUT TYPE="checkbox" name="thisname" value="$ems[0]"></TD>
+   <TD>$ems[0]</TD>
+   <TD>$ems[1]</TD>
+   <TD>$dt[0]</TD>
+   <TD>$dt[1]</TD>
+   </TR>
+__STOP__
+  }
+
+ }
+print <<__FOOTER__;
+ <TR>
+  <TD COLSPAN=5 BGCOLOR="#99FF99" ALIGN=CENTER>
+     <INPUT NAME="action" TYPE="hidden" VALUE="PURGE">
+    <INPUT TYPE="hidden" NAME="filename" VALUE="$fields{'filename'}">
+     <B>Pressing 
+    <INPUT TYPE="submit" VALUE="DO IT!"> 
+    will delete all checked addresses!</B>
+    <P>
+    $cpr
+  </TD>
+ </TR>
+</TABLE>
+ </FORM>
+</CENTER>
+__FOOTER__
+}
+
+
+##################################################################
+sub get_the_lock
+{
+  $lockfile="$TEMPDIR/subscribe.lck";
+  local ($endtime);                                   
+  $endtime = 60;                                      
+  $endtime = time + $endtime;                         
+  while (-e $lockfile && time < $endtime) 
+   {
+    # Do Nothing                                    
+   }                                                   
+   open(LOCK_FILE, ">$lockfile");                     
+}
+
+##################################################################
+sub drop_the_lock
+{
+  close($lockfile);
+  unlink($lockfile);
+}
+
+##################################################################
+sub decode_vars
+ {
+@killist=();
+  $i=0;
+  read(STDIN,$temp,$ENV{'CONTENT_LENGTH'});
+  @pairs=split(/&/,$temp);
+  foreach $item(@pairs)
+   {
+    ($key,$content)=split(/=/,$item,2);
+    $content=~tr/+/ /;
+    $content=~s/%(..)/pack("c",hex($1))/ge;
+    $content=~s/\t/ /g;
+    $fields{$key}=$content;
+    if ($key eq "filename" &&  taint_test($fields{'filename'}) != 1)
+      { &error_report("mail list filename contains illegal characters.") }
+    if ($key eq "lfilename" &&  taint_test($fields{'lfilename'}) != 1)
+      { &error_report("letter filename contains illegal characters.") }
+      
+    if ($key eq "thisname")
+      {
+       $content=~s/ //g;
+       push(@killist,$content);
+      }
+   }
+}
+
+##################################################################
+sub setup
+{
+$cpr=<<__CPR__;
+<CENTER>
+<FONT SIZE=1>
+Another FREE Script from<BR>
+ <A HREF="http://bignosebird.com/">BigNoseBird.Com</A>
+</FONT>
+</CENTER>
+__CPR__
+
+%mailcodes=('1','success',
+ '-1', 'smtphost unknown',
+ '-2', 'socket() failed',
+ '-3', 'connect() failed',
+ '-4', 'service not available',
+ '-5', 'unspecified communication error',
+ '-6', 'local user to unknown on host smtp',
+ '-7', 'transmission of message failed',
+ '-8', 'argument to empty');
+}
+
+##################################################################
+sub purge_names
+{
+
+ &get_the_lock;
+
+open (RDR,"<$BASEDIR/$fields{'filename'}");
+@biglist=<RDR>; 
+close(RDR);
+open (ODR,"> $BASEDIR/$fields{'filename'}");
+foreach $em(@biglist)
+ {
+   $skip=0;
+   chop $em;
+   @rms=split(/\|/,$em);
+   foreach $ds (@killist)
+    {
+      if ($rms[0] eq $ds)
+       {$skip=1;break;}
+    }
+    if ($skip == 1)
+     {next;}
+    print ODR "$em\n";
+ }
+ close(ODR);
+ &drop_the_lock;
+ print "Location: $SCRIPT_URL\n\n";
+}
+
+##################################################################
+sub get_files
+{
+ local($style,$exten) = @_;
+ local(@items, $item);
+ opendir(MBZDIR, "$BASEDIR");
+ @items = grep(/$exten/,readdir(MBZDIR));
+ closedir(MBZDIR);
+ $fs="<SELECT NAME=\"$style\">\n";
+ foreach $item (@items)
+  {
+   $fs .= "<OPTION VALUE=\"$item\"> $item\n";
+  }
+   $fs .= "</SELECT>\n";
+   return $fs;
+}
+
+##################################################################
+sub ltr_editor
+{
+ if (!-w "$BASEDIR/$fields{'lfilename'}")
+   {&error_report("Write permission on requested $fields{'lfilename'} file are not turned on. <BR>Try CHMOD 666 $fields{'lfilename'}");}
+print "Content-type: text/html\n\n";
+ if ( $fields{'newfile'} eq "NO")
+  {
+   $lettext="";
+   open (INLTR,"<$BASEDIR/$fields{'lfilename'}");
+   while ($ir=<INLTR>)
+    { $lettext .= $ir; }
+    close(INLTR);
+    $namehide="<INPUT TYPE=\"hidden\" NAME=\"lfilename\" VALUE=\"$fields{'lfilename'}\">";
+    $header="<H2>EDIT LETTER FILE: $fields{'lfilename'}</H2>";
+  }
+  else
+  {
+    $header ="<H2>CREATE LETTER FILE: ";
+    $header .= "<INPUT TYPE=\"TEXT\" NAME=\"lfilename\" SIZE=15 MAXLENGTH=15> </H2>";
+    $header .= "<INPUT NAME=\"newfile\" TYPE=\"hidden\" VALUE=\"YES\">";
+  }
+
+print <<__HEADER1__;
+<FORM ACTION="$SCRIPT_URL" METHOD="POST">
+<CENTER>
+ <TABLE CELLPADDING=2 BORDER=1 BGCOLOR="#CCE6FF">
+<TR>
+  <TD COLSPAN=5 ALIGN=CENTER BGCOLOR="#FFFF00">
+    $header 
+    <A HREF="$SCRIPT_URL">Return to Management Page</A>
+    <P>
+  </TD>
+</TR>
+<TR>
+<TD>
+<textarea name="lettext" wrap=off rows=10 cols=70>$lettext</textarea>
+</TD>
+</TR>
+
+ <TR>
+  <TD COLSPAN=5 BGCOLOR="#99FF99" ALIGN=CENTER>
+     <INPUT NAME="action" TYPE="hidden" VALUE="POSTLETTER">
+     $namehide
+     <B>Pressing 
+    <INPUT TYPE="submit" VALUE="DO IT!"> 
+    will save your letter file</B>
+    <P>
+    $cpr
+  </TD>
+ </TR>
+</TABLE>
+ </FORM>
+</CENTER>
+__HEADER1__
+
+}
+
+##################################################################
+sub post_letter
+{
+ if ( $fields{'newfile'} eq "YES")
+   {$fn="$fields{'lfilename'}.ltr";}
+   else {$fn=$fields{'lfilename'};}
+ open (OTLTR,"> $BASEDIR/$fn");
+ print OTLTR "$fields{'lettext'}";
+ close (OTLTR);
+
+print "Location: $SCRIPT_URL\n\n";
+}
+
+##################################################################
+sub taint_test
+{
+ local($testvalue) = @_;
+ if ($testvalue=~ /^([-\@\w.]+)$/) 
+  {return 1;}
+   else {return 0;}
+}
+
+##################################################################
+sub error_report
+{
+ local($errormsg) = @_;
+ print "Content-type: text/html\n\n";
+ print <<__ERROR_MESSAGE__;
+<CENTER>
+<H2>
+<B>The following error has occurred:</B>
+<P>
+$errormsg
+</H2>
+</CENTER>
+__ERROR_MESSAGE__
+ exit;
+}
+
+##################################################################
+sub test_dirs
+{
+ if (!-w $BASEDIR)
+  {&error_report("The BASEDIR does not have write permission turned on!<BR> Try CHMOD 777 $BASEDIR");}
+ if (!-w $TEMPDIR)
+  {&error_report("The BASEDIR does not have write permission turned on!<BR> Try CHMOD 777 $TEMPDIR");}
+}
+
+
+###################################################################
+#Sendmail.pm routine below by Milivoj Ivkovic 
+###################################################################
+sub sendmail  {
+
+# error codes below for those who bother to check result codes <gr>
+
+# 1 success
+# -1 $smtphost unknown
+# -2 socket() failed
+# -3 connect() failed
+# -4 service not available
+# -5 unspecified communication error
+# -6 local user $to unknown on host $smtp
+# -7 transmission of message failed
+# -8 argument $to empty
+#
+#  Sample call:
+#
+# &sendmail($from, $reply, $to, $smtp, $subject, $message );
+#
+#  Note that there are several commands for cleaning up possible bad inputs - if you
+#  are hard coding things from a library file, so of those are unnecesssary
+#
+
+    my ($fromaddr, $replyaddr, $to, $smtp, $subject, $message) = @_;
+
+    $to =~ s/[ \t]+/, /g; # pack spaces and add comma
+    $fromaddr =~ s/.*<([^\s]*?)>/$1/; # get from email address
+    $replyaddr =~ s/.*<([^\s]*?)>/$1/; # get reply email address
+    $replyaddr =~ s/^([^\s]+).*/$1/; # use first address
+    $message =~ s/^\./\.\./gm; # handle . as first character
+    $message =~ s/\r\n/\n/g; # handle line ending
+    $message =~ s/\n/\r\n/g;
+    $smtp =~ s/^\s+//g; # remove spaces around $smtp
+    $smtp =~ s/\s+$//g;
+
+    if (!$to)
+    {
+	return(-8);
+    }
+
+ if ($SMTP_SERVER ne "")
+  {
+    my($proto) = (getprotobyname('tcp'))[2];
+    my($port) = (getservbyname('smtp', 'tcp'))[2];
+
+    my($smtpaddr) = ($smtp =~
+		     /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/)
+	? pack('C4',$1,$2,$3,$4)
+	    : (gethostbyname($smtp))[4];
+
+    if (!defined($smtpaddr))
+    {
+	return(-1);
+    }
+
+    if (!socket(MAIL, AF_INET, SOCK_STREAM, $proto))
+    {
+	return(-2);
+    }
+
+    if (!connect(MAIL, pack('Sna4x8', AF_INET, $port, $smtpaddr)))
+    {
+	return(-3);
+    }
+
+    my($oldfh) = select(MAIL);
+    $| = 1;
+    select($oldfh);
+
+    $_ = <MAIL>;
+    if (/^[45]/)
+    {
+	close(MAIL);
+	return(-4);
+    }
+
+    print MAIL "helo $SMTP_SERVER\r\n";
+    $_ = <MAIL>;
+    if (/^[45]/)
+    {
+	close(MAIL);
+	return(-5);
+    }
+
+    print MAIL "mail from: <$fromaddr>\r\n";
+    $_ = <MAIL>;
+    if (/^[45]/)
+    {
+	close(MAIL);
+	return(-5);
+    }
+
+    foreach (split(/, /, $to))
+    {
+	print MAIL "rcpt to: <$_>\r\n";
+	$_ = <MAIL>;
+	if (/^[45]/)
+	{
+	    close(MAIL);
+	    return(-6);
+	}
+    }
+
+    print MAIL "data\r\n";
+    $_ = <MAIL>;
+    if (/^[45]/)
+    {
+	close MAIL;
+	return(-5);
+    }
+
+   }
+
+  if ($SEND_MAIL ne "")
+   {
+     open (MAIL,"| $SEND_MAIL");
+   }
+
+    print MAIL "To: $to\n";
+    print MAIL "From: $fromaddr\n";
+    print MAIL "Reply-to: $replyaddr\n" if $replyaddr;
+    print MAIL "X-Mailer: Perl Powered Socket Mailer\n";
+    print MAIL "Subject: $subject\n\n";
+    print MAIL "$message";
+    print MAIL "\n.\n";
+
+ if ($SMTP_SERVER ne "")
+  {
+    $_ = <MAIL>;
+    if (/^[45]/)
+    {
+	close(MAIL);
+	return(-7);
+    }
+
+    print MAIL "quit\r\n";
+    $_ = <MAIL>;
+  }
+
+    close(MAIL);
+    return(1);
+}
+
+
+##################################################################
+sub valid_address
+ {
+  local($testmail) = @_;
+  if ($testmail eq "")
+   {return 0;}
+  if ($testmail =~ /(@.*@)|(\.\.)|(@\.)|(\.@)|(^\.)/ ||
+  $testmail !~ /^.+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z]{2,3}|[0-9]{1,3})(\]?)$/)
+   { return 0;}
+   else 
+    { return 1;}
+}
+

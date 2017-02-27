@@ -1,0 +1,91 @@
+<SCRIPT LANGUAGE="php">
+if(false){
+</SCRIPT><html><head>
+<title>menu</title>
+</head>
+
+<body topmargin="0" leftmargin="0" marginheight="0" marginwidth="0">
+<SCRIPT LANGUAGE="php">
+}
+</SCRIPT>
+
+<script language="JavaScript1.2" src="popouttext.js">
+</script>
+<script language="JavaScript1.2">
+mymenu = new POTMenu
+// Defines the size of the main menu items, width and height
+mymenu.mainmenuitemsize(122,18)
+// Defines the size of the sub menu items, width and height
+mymenu.submenuitemsize(186,18)
+// Defines the position of the sub menus in relation to the parent
+mymenu.submenuplacing(0,0)
+// Images that make up the border of the main menu. Optional.
+mymenu.mainborderimages("images/blackpixel.gif","images/blackpixel.gif","images/clearpixel.gif","images/blackpixel.gif")
+// Corners of the images that make up the main menu border.
+mymenu.mainbordercorners("images/blackpixel.gif","images/blackpixel.gif","images/blackpixel.gif","images/blackpixel.gif")
+// Left width, right width and height of the top and bottom of the border
+mymenu.mainborderdimensions(1,1,1)
+// These lines are for the sub menu borders
+mymenu.subborderimages("images/blackpixel.gif","images/blackpixel.gif","images/blackpixel.gif","images/blackpixel.gif")
+mymenu.subbordercorners("images/blackpixel.gif","images/blackpixel.gif","images/blackpixel.gif","images/blackpixel.gif")
+mymenu.subborderdimensions(1,1,1)
+// Main menu cell color
+mymenu.mainmenucolor("#EFECE2")
+// Sub menu cell color
+mymenu.submenucolor("#EFECE2")
+// Graphical "join" between a menu and its sub menu. Optional
+//mymenu.definejoin("images/join.gif",25)
+// Centers text for Netscape 4.7
+mymenu.netscapeadjust(3,3)
+// The image that is show between the main menu items
+mymenu.definemainspacer("images/blackpixel.gif",1)
+// The image that is show between the sub menu items
+mymenu.definesubspacer("images/blackpixel.gif",1)
+// Do you want to "hide" (SELECT menus, OBJECT tags) when in the menu
+mymenu.hideobjects(true,true)
+// This line is required here
+mymenu.startMenu()
+// Define the main menu.
+mymenu.addMenu("home","<b>HOME</b>", "index.php")
+
+
+// Please note, the following line of code is used to automatically create the links for the product sections
+// If you do not want to use this feature, please delete this line of code in your includes/menu.htm file
+// along with the corresponding section below.
+
+
+
+
+mymenu.addMenu("products","<b>Products</b>", "categories.php")
+mymenu.addMenu("search","<b>Search</b>", "search.php")
+mymenu.addMenu("checkout","<b>Checkout</b>", "cart.php")
+// This line is required after the main menu is defined.
+mymenu.showMainMenu()
+// Define the sub menus
+
+
+// Delete these 7 lines and the corresponding lines above if you 
+// don't want an automatically generated popout menu.
+<?php
+$menuprestr = "<b>";
+$menupoststr = "</b>";
+include "./vsadmin/inc/incmenu.php";
+?>
+
+
+
+
+
+
+// This line is required after all menu definitions are finished
+mymenu.showMenu()
+</script>    
+
+<SCRIPT LANGUAGE="php">
+if(false){
+</SCRIPT>
+</body>
+</html>
+<SCRIPT LANGUAGE="php">
+}
+</SCRIPT>

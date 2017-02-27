@@ -1,0 +1,53 @@
+<SCRIPT LANGUAGE="php">
+session_cache_limiter('none');
+session_start();
+</SCRIPT><html dir="ltr">
+<head>
+<title>Products</title>
+<link href="../text.css" rel="stylesheet" type="text/css">
+</head>
+
+<body bgcolor="#F19503" vlink="#0000FF" alink="#FF0000" topmargin="0" leftmargin="0">
+<p align="center">
+  <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="1006" height="190" title="la gourmet pizza">
+    <param name="movie" value="graphics.swf">
+    <param name="quality" value="high">
+    <embed src="graphics.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="1006" height="190"></embed>
+  </object>
+  <br>
+  <SCRIPT LANGUAGE="php">
+// include "includes/header.htm";
+  </SCRIPT>
+</p>
+  <div align="center">
+    <center>
+<table width="377" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse; font-family:Verdana; font-size:8pt">
+  <tr> <SCRIPT LANGUAGE="php">
+include "vsadmin/db_conn_open.php";
+include "vsadmin/includes.php";
+include "vsadmin/inc/languagefile.php";
+include "vsadmin/inc/incfunctions.php";
+// include "includes/menu.htm";
+    </SCRIPT>
+    
+<table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" width="70%" id="AutoNumber1">
+  <tr>
+    <td width="100%" align="center">
+<SCRIPT LANGUAGE="php">
+include "vsadmin/inc/inccategories.php";
+    </SCRIPT>  &nbsp;</td>
+  </tr>
+</table>
+
+
+  <tr align="center"> 
+    <td style="color: #FF0000; font-family:Verdana; font-size:10pt; font-weight:bold" width="450" dir="ltr"><br>
+     <SCRIPT LANGUAGE="php">
+include "includes/footer.htm";
+    </SCRIPT></td>
+  </tr>
+</table></center>
+  </div>
+
+</body>
+</html>

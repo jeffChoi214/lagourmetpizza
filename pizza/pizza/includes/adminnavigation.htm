@@ -1,0 +1,70 @@
+<SCRIPT LANGUAGE="php">
+if(false){
+</SCRIPT>
+<html>
+<head>
+</head>
+<body>
+<SCRIPT LANGUAGE="php">
+}
+</SCRIPT>
+
+<script language="JavaScript">
+<!--
+function turnOn(imageName) {
+  if (document.images) {
+    document[imageName].src = eval(imageName + 'on.src');
+  }
+}
+function turnOff(imageName) {
+  if (document.images) {
+    document[imageName].src = eval(imageName + 'off.src');
+  }
+}
+//-->
+</script>
+<SCRIPT LANGUAGE="php">
+$currimage=0;
+function createpreloader(){
+	global $currimage, $allimages;
+	print '<script language="JavaScript">';
+	for($index=0; $index < $currimage; $index++){
+		print $allimages[$index]["name"] . "=new Image();\n";
+		print $allimages[$index]["name"] . ".src='" . $allimages[$index]["src"] . "';\n";
+	}
+	print '</' . 'script>';
+}
+function addrollover($link,$offstate,$onstate){
+	global $currimage, $allimages;
+	$thisim = 'image' . $currimage;
+	$allimages[$currimage]["name"] = $thisim . 'off';
+	$allimages[$currimage]["src"] = $offstate;
+	$allimages[$currimage+1]["name"] = $thisim . 'on';
+	$allimages[$currimage+1]["src"] = $onstate;
+	//eval(thisim+'on = new Image()');
+	//eval(thisim+'on.src = "'+onstate+'"');
+	//eval(thisim+'off = new Image()');
+	//eval(thisim+'off.src = "'+offstate+'"');
+	print '<a href="' . $link . '" onMouseOut="turnOff(\'' . $thisim . '\')" onMouseOver="turnOn(\'' . $thisim . '\')"><img name="' . $thisim . '" border="0" src="' . $offstate . "\"></a><br>\n";
+	$currimage+=2;
+}
+// Add your rollovers here.
+// First the link, second the normal button image, third the "over" button image
+addrollover('admin.php','../images/menu/adminhome.gif','../images/menu/adminhomeov.gif');
+addrollover('adminmain.php','../images/menu/adminmain.gif','../images/menu/adminmainov.gif');
+addrollover('admincats.php','../images/menu/admincats.gif','../images/menu/admincatsov.gif');
+addrollover('adminprods.php','../images/menu/products.gif','../images/menu/productsov.gif');
+addrollover('adminlogin.php','../images/menu/adminpass.gif','../images/menu/adminpassov.gif');
+addrollover('logout.php','../images/menu/adminlogout.gif','../images/menu/adminlogoutov.gif');
+// This should always be the last line.
+createpreloader();
+</SCRIPT>
+
+<SCRIPT LANGUAGE="php">
+if(false){
+</SCRIPT>
+</body>
+</html>
+<SCRIPT LANGUAGE="php">
+}
+</SCRIPT>

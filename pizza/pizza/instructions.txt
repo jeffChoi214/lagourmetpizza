@@ -1,0 +1,29 @@
+Instructions
+
+There are a couple of issues with the FrontPage version when using PHP only. Frontpage extensions do not work with pages with the .php extension, so this means that FrontPage Includes do not work. We have found a neat way around these issues, but there are a couple of things to bear in mind. 
+
+First, for include pages, we have just used PHP includes. It's already set up for you, and you will find the included pages in the includes folder. Unlike FrontPage includes however, all links will be relative to the file that is doing the including. So, for this reason we recommend you use links relative to the site root if you want to use the same include files in folders and sub folders.
+
+Examples of different ways to link pages are . . . 
+
+This is a relative link: mypage.php 
+This is a link relative to the site root: /mypage.php 
+This is an absolute link: http://www.mysite.com/mypage.php 
+
+Graphics
+
+The template comes with all .png files for you to modify in Fireworks. These can be found in the extra images folder.
+There are also blank gifs for the top icons
+The TTS logo is just there as a placeholder and should be replaced with one of your own.
+The font for the company name is Arial Rounded Bold MT size 35
+The font for the welcome gif is Arial Rounded Bold MT size 25
+The font for the top icons is Arial size 12
+
+
+CSS
+
+The template uses Cascading Style Sheets to determine the text size, colour and hyperlink properties. These can be edited by double clicking on the file style.css.
+
+Customization 
+
+You can probably make all the changes you need to this template yourself but if you require any custom work or professional help, please contact Andy at andy@ibswebdesign.com and he'll send you a quote for the work you require.

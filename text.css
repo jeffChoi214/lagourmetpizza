@@ -1,0 +1,21 @@
+.text {
+	font-family: Tahoma, Arial;
+	font-size: 9px;
+}
+input {
+	font-family: Tahoma, Arial;
+	font-size: 9px;
+}
+select {
+	font-family: Tahoma, Arial;
+	font-size: 9px;
+}
+table {
+	border: 1px none;
+
+
+}
+textarea {
+	font-family: Tahoma, Arial;
+	font-size: 9px;
+}

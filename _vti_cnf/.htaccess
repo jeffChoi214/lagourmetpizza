@@ -1,0 +1,11 @@
+# -FrontPage-
+
+#ptions None
+
+<Limit GET POST PUT DELETE>
+order deny,allow
+deny from all
+</Limit>
+AuthName lagourmetpizza.com
+AuthUserFile /homepages/21/d123799337/htdocs/_vti_pvt/service.pwd
+AuthGroupFile /homepages/21/d123799337/htdocs/_vti_pvt/service.grp

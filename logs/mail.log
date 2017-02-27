@@ -1,0 +1,11 @@
+2017-02-27 02:04:31 u37935625 0EjkKZ-1bx7x63CZf-00pegW |< REMOTE=46.161.9.19 SCRIPT=/send_contact.php -- /usr/sbin/sendmail -t -i
+2017-02-27 02:04:31 u37935625 0EjkKZ-1bx7x63CZf-00pegW <= S=ashelywhalp@mail.ru SZ=1323 D=0 SID=123799337
+2017-02-27 02:04:31 u37935625 0EjkKZ-1bx7x63CZf-00pegW => info@lagourmetpizza.com msmtp.perfora.net[172.19.143.3] 250 Requested mail action okay, completed: id=0MFJYo-1cWC7f3MCC-00EIpf
+2017-02-27 12:58:23 u37935625 0EL1w5-1cNs021mft-00yzj3 |< REMOTE=148.73.108.241 SCRIPT=/pizza/thanks.php -- /usr/sbin/sendmail -t -i
+2017-02-27 12:58:23 u37935625 0EL1w5-1cNs021mft-00yzj3 WW invalid sender address: " info@lagourmetpizza.com <info@lagourmetpizza.com>"
+2017-02-27 12:58:23 u37935625 0EL1w5-1cNs021mft-00yzj3 <= S=cgi-mailer-bounces-123799337@perfora.net SZ=1232 D=0 SID=123799337
+2017-02-27 12:58:23 u37935625 0EL1w5-1cNs021mft-00yzj3 => info@lagourmetpizza.com msmtp.perfora.net[172.19.143.3] 250 Requested mail action okay, completed: id=0MThzC-1cr6kB20IK-00QRKD
+2017-02-27 12:58:23 u37935625 0Dv5aF-1cnYMu2UOx-00Vl2L |< REMOTE=148.73.108.241 SCRIPT=/pizza/thanks.php -- /usr/sbin/sendmail -t -i
+2017-02-27 12:58:23 u37935625 0Dv5aF-1cnYMu2UOx-00Vl2L WW invalid sender address: " info@lagourmetpizza.com <info@lagourmetpizza.com>"
+2017-02-27 12:58:23 u37935625 0Dv5aF-1cnYMu2UOx-00Vl2L <= S=cgi-mailer-bounces-123799337@perfora.net SZ=1335 D=0 SID=123799337
+2017-02-27 12:58:23 u37935625 0Dv5aF-1cnYMu2UOx-00Vl2L => MIMISALEH1720@GMAIL.COM msmtp.perfora.net[172.19.143.3] 250 Requested mail action okay, completed: id=0LlXVp-1c95D62brj-00bKUf

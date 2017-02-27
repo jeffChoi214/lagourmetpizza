@@ -1,0 +1,87 @@
+A:link {
+	color: #F19503;
+	text-decoration: none;
+}
+
+A:visited {
+	color: #F19503;
+	text-decoration: none;
+}
+
+A:active {
+	color: #F19503;
+	text-decoration: none;
+}
+
+A:hover {
+	color: #333333;
+	text-decoration: none;
+}
+
+TD {
+	font-size: 9px;
+	font-family : Verdana;
+	color : #333333;
+}
+
+P {
+	font-size: 9px;
+	font-family : Arial;
+	color : #333333;
+}
+
+TD.dark {
+	font-size: 9px;
+	font-family : Arial;
+	font-weight : Bold;
+	color : #FFFFFF;
+}
+
+P.dark {
+	font-size: 9px;
+	font-family : Arial;
+	color : #FFFFFF;
+	font-weight : Bold;
+}
+
+TD.smaller {
+	font-size: 9px;
+	font-family : Arial;
+	color : #333333;
+}
+
+P.smaller {
+	font-size: 9px;
+	font-family : Arial;
+	color : #333333;
+}
+
+A.menu:link {
+	COLOR: #333333; TEXT-DECORATION: none
+}
+A.menu:active {
+	COLOR: #333333; TEXT-DECORATION: none
+}
+A.menu:visited {
+	COLOR: #333333; TEXT-DECORATION: none
+}
+A.menu:hover {
+	COLOR: #F19503; TEXT-DECORATION: none
+}
+
+TD.menu {
+font-family: Arial;
+font-size: 9px;
+color: #333333;
+}
+
+DIV.menu {
+font-family: Arial;
+font-size: 9px;
+color: #333333;
+}
+
+HR {
+	color: #333333;
+	height: 1px;
+}
